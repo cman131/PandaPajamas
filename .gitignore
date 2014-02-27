@@ -4,3 +4,13 @@
 *.jar
 *.war
 *.ear
+
+# vim swap files
+*.swp
+
+# projects
+wordpress-with-tests
+wordpress-without-tests
+
+# Vagrant
+.vagrant
