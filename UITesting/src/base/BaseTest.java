@@ -5,16 +5,24 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
+import util.SeleniumUtils;
 import enums.Browser;
 
 public class BaseTest {
 	
 	protected WebDriver driver;
 	protected Browser browser = Browser.CHROME;
+	protected String startUrl = "http://vm352d.se.rit.edu/wordpress-with-tests/src/";
 	
 	@Before
 	public void setUp(){
 		initializeDriver();
+		driver.manage().window().maximize();
+		try {
+			SeleniumUtils.goTo(driver, startUrl);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**

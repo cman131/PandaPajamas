@@ -1,11 +1,15 @@
 package util;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.gargoylesoftware.htmlunit.javascript.background.JavaScriptExecutor;
+import com.thoughtworks.selenium.Wait;
 
 
 public class SeleniumUtils {
@@ -44,9 +48,11 @@ public class SeleniumUtils {
 	 * @author Conor
 	 * @param driver - the current Selenium Webdriver
 	 * @param url - The url to go to
+	 * @throws InterruptedException 
 	 */
-	public static void goTo(WebDriver driver, String url){
+	public static void goTo(WebDriver driver, String url) throws InterruptedException{
 		driver.get(url);
+		waitForJavascript(driver);
 	}
 	
 	/**
@@ -109,5 +115,34 @@ public class SeleniumUtils {
 		final WebDriverWait wait = new WebDriverWait(driver, implicitWait);
 		return wait.until(ExpectedConditions
 				.visibilityOfElementLocated(elementBy));
+	}
+	
+	/**
+	 * Waits until the javascript on the page is finished executing
+	 * 
+	 * @author Conor
+	 * @param driver - The current Selenium Webdriver
+	 * @param implicitWait - the amount of time to wait before timing out
+	 * @throws InterruptedException 
+	 */
+	public static void waitForJavascript(WebDriver driver) throws InterruptedException{
+		waitForJavascript(driver, SeleniumUtils.IMPLICIT_WAIT);
+	}
+	
+	/**
+	 * Waits until the javascript on the page is finished executing
+	 * 
+	 * @author Conor
+	 * @param driver - The current Selenium Webdriver
+	 * @param implicitWait - the amount of time to wait before timing out
+	 * @throws InterruptedException 
+	 */
+	public static void waitForJavascript(final WebDriver driver, final int implicitWait) throws InterruptedException{
+		Wait wait2 = new Wait("Wait for javascript") {
+			public boolean until(){
+				return ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete");
+			}
+		};
+		wait2.wait("Wait for javascript", implicitWait);
 	}
 }

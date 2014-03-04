@@ -14,6 +14,7 @@ public class ExampleTestClass extends BaseTest {
 	@Before
 	public void setUp(){
 		this.browser = Browser.CHROME;
+		this.startUrl = "http://www.google.com";
 		super.setUp();
 	}
 	
@@ -25,10 +26,13 @@ public class ExampleTestClass extends BaseTest {
 	public void pandaTest(){
 		String resultString = "";
 		try{
-			SeleniumUtils.goTo(driver, "http://www.google.com");
+			// Wait for the search field and search for Pandas
 			SeleniumUtils.waitForElementVisible(driver, By.cssSelector("input[type='text']"), 5);
 			SeleniumUtils.setTextField(driver, By.cssSelector("input[type='text']"), "Pandas");
 			SeleniumUtils.getElement(driver, By.cssSelector("button.gbqfba, button.gbqfb")).click();
+			
+			// Wait for results and get the text of the first result
+			SeleniumUtils.waitForJavascript(driver);
 			WebElement result = SeleniumUtils.getElement(driver, By.cssSelector("li.g a"));
 			resultString = SeleniumUtils.getText(driver, result);
 		}
@@ -36,6 +40,7 @@ public class ExampleTestClass extends BaseTest {
 			e.printStackTrace();
 		}
 		finally{
+			// Verify that Panda is in the first result
 			assertTrue(StringUtils.containsIgnoreCase(resultString, "Panda"));
 		}
 	}
