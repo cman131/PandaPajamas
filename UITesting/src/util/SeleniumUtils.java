@@ -2,6 +2,7 @@ package util;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -40,6 +41,15 @@ public class SeleniumUtils {
 		element.click();
 		element.clear();
 		element.sendKeys(text);
+	}
+	
+	public static boolean isDisplayed(WebDriver driver, By by) throws WebDriverException, InterruptedException{
+		try{
+			return SeleniumUtils.getElement(driver, by).isDisplayed();
+		}
+		catch(NoSuchElementException e){
+			return false;
+		}
 	}
 	
 	/**
