@@ -1,0 +1,3 @@
+Bug 1: date.php contains a reference to esc_sql() method from formatting.php exists without the containing file being required. Causes a fatal error.
+
+Bug 2: formatting.php has a redeclare of the method wptexturize() causing a fatal error.

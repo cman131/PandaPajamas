@@ -1,5 +1,6 @@
 <?php
 require '../Source/src/wp-includes/date.php';
+require '../Source/src/wp-includes/formatting.php';
 
 class DateTest extends PHPUnit_Framework_TestCase
 {
